@@ -1,0 +1,5 @@
+outs:
+- md5: 9def873f24f41ab92e2fa88e0627eab3
+  size: 12331
+  hash: md5
+  path: country_iso_r10.csv
