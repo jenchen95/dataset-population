@@ -1,4 +1,5 @@
 import polars as pl
+import polars.selectors as cs
 
 # Read the data
 iso_r10 = (
@@ -16,5 +17,30 @@ pop_medium = (
     .sort('region','year')
 )
 
+gdp_history = (
+    pl.read_excel(source='../data/data_raw/gdp.xlsx', sheet_name='Data')
+    .lazy()
+    .join(iso_r10, left_on='Country Code', right_on='iso', how='left')
+    .rename({'Series Name':'unit', 'r10_ar6':'region'})
+    .drop_nulls(subset=['region'])
+    .select(pl.col('region','unit'), cs.float())
+    .group_by(
+        ['region','unit']
+    )
+    .agg(pl.all().sum())
+    .melt(id_vars=['region','unit'], variable_name='year', value_name='gdp')
+    .with_columns(year=pl.col('year').str.slice(0, length=4))
+    .cast({'year':pl.Int64})
+    .select(pl.col('region','year','gdp','unit'))
+)
+
+gdp_per_cap_history = (
+    gdp_history.join(pop_medium, on=['region','year'], suffix='_pop')
+    .drop_nulls(subset=['gdp','population'])
+    .with_columns(gdp_per_cap=pl.col('gdp') / pl.col('population') / 1000)
+    .select(pl.col('region','year','gdp_per_cap','unit','gdp','population','unit_pop'))
+)
+
 # Export the data
 pop_medium.sink_csv('../data/data_task/pop_medium_r10.csv')
+gdp_per_cap_history.sink_csv('../data/data_task/gdp_per_cap_r10.csv')

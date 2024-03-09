@@ -1,0 +1,5 @@
+outs:
+- md5: 5196c8c4af46c53595416c5f7e8d4e7d
+  size: 64077
+  hash: md5
+  path: gdp_per_cap_r10.csv
