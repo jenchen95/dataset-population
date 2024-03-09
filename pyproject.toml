@@ -9,8 +9,18 @@ readme = "README.md"
 python = "3.9.12"
 polars = "^0.20.7"
 visidata = "^3.0.2"
+xlsx2csv = "^0.8.1"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+name = "aliyun"
+url = "http://mirrors.aliyun.com/pypi/simple"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "supplemental"
