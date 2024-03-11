@@ -18,10 +18,10 @@ pop_medium = (
 )
 
 gdp_history = (
-    pl.read_excel(source='../data/data_raw/gdp.xlsx', sheet_name='Data')
+    pl.read_excel(source='../data/data_raw/gdp-2010-constant.xlsx', sheet_name='Data')
     .lazy()
     .join(iso_r10, left_on='Country Code', right_on='iso', how='left')
-    .rename({'Series Name':'unit', 'r10_ar6':'region'})
+    .rename({'Indicator Name':'unit', 'r10_ar6':'region'})
     .drop_nulls(subset=['region'])
     .select(pl.col('region','unit'), cs.float())
     .group_by(
@@ -29,7 +29,6 @@ gdp_history = (
     )
     .agg(pl.all().sum())
     .melt(id_vars=['region','unit'], variable_name='year', value_name='gdp')
-    .with_columns(year=pl.col('year').str.slice(0, length=4))
     .cast({'year':pl.Int64})
     .select(pl.col('region','year','gdp','unit'))
 )

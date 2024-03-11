@@ -8,7 +8,10 @@ country_iso_r10.csv: UN population program's countries' region category
 
 ### data_raw
 
-gdp.xlsx: gdp statistics by countries
+gdp.xlsx: gdp statistics by countries (2015 constant)
+
+gdp-2010-constant.xlsx: gdp statistics by countries (2010 constant), which is consistent with AR6. So now we  use it. [GDP By Country in constant 2010 US$ 1988 - 2021 | WITS Data (worldbank.org)](https://wits.worldbank.org/CountryProfile/en/country/by-country/startyear/ltst/endyear/ltst/indicator/NY-GDP-MKTP-KD#)
+
 gdp_per_capita.xlsx: gdp per capita statistics by countries
 
 WPP2022_Demographic_Indicators_Medium.csv
